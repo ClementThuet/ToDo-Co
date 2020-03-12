@@ -21,9 +21,12 @@
                             {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
                         </button>
                     </form>
-                    <form action="{{ path('task_delete', {'id' : task.id }) }}">
-                        <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
-                    </form>
+                    {#Show delete button if the user logged own the task or if the task have no owner and the user logged have role admin #}
+                    {% if app.user == task.user or (task.user is null and "ROLE_ADMIN" in app.user.roles)%}
+                        <form action="{{ path('task_delete', {'id' : task.id }) }}">
+                            <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
+                        </form>
+                    {%endif%}
                 </div>
             </div>
         </div>
