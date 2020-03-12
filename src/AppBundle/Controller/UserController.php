@@ -56,7 +56,8 @@ class UserController extends Controller
         if ($form->isValid()) {
             $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-
+            var_dump($user->getRoles());
+            //die();
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");

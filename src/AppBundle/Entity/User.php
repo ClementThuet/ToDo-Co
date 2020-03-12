@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Table("user")
@@ -43,7 +44,17 @@ class User implements UserInterface
      * @ORM\Column(name="roles", type="json", nullable=true)
     */
     private $roles;
-
+    
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Task", mappedBy="user")
+     */
+    private $tasks;
+    
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+    }
+    
     public function getId()
     {
         return $this->id;
@@ -99,4 +110,22 @@ class User implements UserInterface
     public function eraseCredentials()
     {
     }
+    
+
+    function addTask($task) {
+        if (!$this->task->contains($task)) {
+            $this->task[] = $task;
+            $task->setUser($this);
+        }
+        return $this;
+    }
+    
+    /**
+     * @return Collection|Task[]
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
+
 }
