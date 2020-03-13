@@ -3,8 +3,12 @@
 {% block header_img %}<img class="slide-image" src="{{ asset('img/todolist_content.jpg') }}" alt="todo list">{% endblock %}
 
 {% block body %}
-    <a href="{{ path('task_create') }}" class="btn btn-info pull-right">Créer une tâche</a>
+   
     <div class="row">
+        <div class="col-lg-12" style="margin-bottom: 2vh;">
+            <a href="{{ path('homepage') }}" class="btn btn-primary pull-left">Retour</a>
+            <a href="{{ path('task_create') }}" class="btn btn-info pull-right">Créer une tâche</a>
+        </div>
         {% for task in tasks %}
         <div class="col-sm-4 col-lg-4 col-md-4">
             <div class="thumbnail">
@@ -17,14 +21,14 @@
                 </div>
                 <div>
                     <form action="{{ path('task_toggle', {'id' : task.id }) }}">
-                        <button class="btn btn-success btn-sm pull-right">
+                        <button class="btn btn-success btn-sm pull-right" style="margin-top:2vh;">
                             {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
                         </button>
                     </form>
                     {#Show delete button if the user logged own the task or if the task have no owner and the user logged have role admin #}
                     {% if app.user == task.user or (task.user is null and "ROLE_ADMIN" in app.user.roles)%}
                         <form action="{{ path('task_delete', {'id' : task.id }) }}">
-                            <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
+                            <button class="btn btn-danger btn-sm pull-right" style="margin-top:2vh;">Supprimer</button>
                         </form>
                     {%endif%}
                 </div>
