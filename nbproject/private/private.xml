@@ -11,6 +11,15 @@
             <file>file:/C:/wamp64/www/ToDo-Co/tests/AppBundle/Entity/UserTest.php</file>
             <file>file:/C:/wamp64/www/ToDo-Co/src/AppBundle/Entity/Task.php</file>
             <file>file:/C:/wamp64/www/ToDo-Co/tests/AppBundle/Controller/UserControllerTest.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/app/Resources/views/base.html.twig</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/src/AppBundle/Controller/DefaultController.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/src/AppBundle/Controller/UserController.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/app/Resources/views/user/edit.html.twig</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/app/Resources/views/default/index.html.twig</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/src/AppBundle/DataFixtures/ORM/BaseFixtures.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/composer.json</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/app/Resources/views/task/list.html.twig</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/app/AppKernel.php</file>
         </group>
     </open-files>
 </project-private>
