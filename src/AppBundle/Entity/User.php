@@ -112,13 +112,14 @@ class User implements UserInterface
     }
     
 
-    function addTask($task) {
+   /* function addTask($task) {
         if (!$this->task->contains($task)) {
             $this->task[] = $task;
             $task->setUser($this);
         }
         return $this;
     }
+    */
     
     /**
      * @return Collection|Task[]
@@ -127,5 +128,6 @@ class User implements UserInterface
     {
         return $this->tasks;
     }
+    
 
 }
