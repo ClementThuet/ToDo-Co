@@ -85,6 +85,7 @@ class TaskController extends Controller
     public function deleteTaskAction(Task $task)
     {
         $user = $this->getUser();
+        //TODO : Check if task is linked to anonymous user instead of null
         if($user == $task->getUser() or ($task->getUser() == null && in_array("ROLE_ADMIN",$user->getRoles())) )
         {
             $em = $this->getDoctrine()->getManager();
