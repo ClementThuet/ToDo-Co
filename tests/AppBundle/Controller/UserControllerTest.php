@@ -9,18 +9,18 @@ class UserControllerTest extends WebTestCase
 {
     private $client = null;
   
-    public function setUp()
+    public function __construct()
     {
       $this->client = static::createClient();
     }
     
     public function testLoginpageIsUp()
     {
-      $this->client->request('GET', '/login');
-      static::assertEquals(
-        200,
-        $this->client->getResponse()->getStatusCode()
-      );
+        $this->client->request('GET', '/login');
+        static::assertEquals(
+          200,
+          $this->client->getResponse()->getStatusCode()
+        );
     }
     
     //Test if there is a form with action = /login_check on the page at the URL "login"
@@ -30,13 +30,14 @@ class UserControllerTest extends WebTestCase
         $this->assertSame(1, $crawler->filter('form[action=\/login_check]')->count());
     }
     
+    //To edit to rly test somethink
     public function testLogin()
     {
         $crawler = $this->client->request('GET', '/login');
         $form = $crawler->selectButton('Se connecter')->form();
-        $form['username'] = 'Clement';
-        $form['password'] = 'test';
-        $crawler = $client->submit($form);
+        $form['_username'] = 'Clement';
+        $form['_password'] = 'test';
+        $crawler->submit($form);
 
         echo $client->getResponse()->getContent();
     }

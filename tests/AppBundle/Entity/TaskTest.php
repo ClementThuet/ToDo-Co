@@ -1,8 +1,8 @@
 <?php
 
 namespace Tests\AppBundle\Entity;
-use AppBundle\Entity\Task;
 
+use AppBundle\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TaskTest extends WebTestCase{

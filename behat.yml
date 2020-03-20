@@ -1,0 +1,9 @@
+default:
+    suites:
+        default:
+            contexts:
+                - FeatureContext
+                - SecurityContext
+                - NavigationContext
+                - UserContext
+                - TaskContext

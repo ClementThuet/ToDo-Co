@@ -1,34 +1,19 @@
-Feature: Product basket
-  In order to buy products
-  As a customer
-  I need to be able to put interesting products into a basket
+@user
+Feature: Create and edit user
+  In order to create or edit a user
+  As a administrator
+  I need to submit valid form
 
-  Rules:
-  - VAT is 20%
-  - Delivery for basket under £10 is £3
-  - Delivery for basket over £10 is £2
+  Scenario: Create user
+    Given I am on users/create url logged in as an admin
+    And I fill in the form with valid informations
+    And I press ajouter
+    Then I should be redirect to users page
+    And the user must be stored in database
 
-  Scenario: Buying a single product under £10
-    Given there is a "Sith Lord Lightsaber", which costs £5
-    When I add the "Sith Lord Lightsaber" to the basket
-    Then I should have 1 product in the basket
-    And the overall basket price should be £9
-
-  Scenario: Buying a single product over £10
-    Given there is a "Sith Lord Lightsaber", which costs £15
-    When I add the "Sith Lord Lightsaber" to the basket
-    Then I should have 1 product in the basket
-    And the overall basket price should be £20
-
-  Scenario: Buying two products over £10
-    Given there is a "Sith Lord Lightsaber", which costs £10
-    And there is a "Jedi Lightsaber", which costs £5
-    When I add the "Sith Lord Lightsaber" to the basket
-    And I add the "Jedi Lightsaber" to the basket
-    Then I should have 2 products in the basket
-    And the overall basket price should be £20
-
-  Scenario: Getting the tasks of one user
-    Given the user
-    When I ask the tasks of this user
-    Then I should get the tasks of this user
+  Scenario: Edit user
+    Given I am on users/create url logged in as an admin
+    Given I am on users/id/edit url
+    And I fill in the form with correct informations
+    And I click on modifier
+    Then I should be redirect to users list
