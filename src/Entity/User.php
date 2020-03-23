@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -46,7 +46,7 @@ class User implements UserInterface
     private $roles;
     
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Task", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Task", mappedBy="user")
      */
     private $tasks;
     

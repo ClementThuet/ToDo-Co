@@ -1,8 +1,7 @@
 <?php
 
+
 use Behat\Behat\Context\Context;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Tester\Exception\PendingException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -16,10 +15,10 @@ class TaskContext extends WebTestCase implements Context
     private static $container;
     
     //Needs to override GetKernelClass method
-    protected static function getKernelClass()
+    /*protected static function getKernelClass()
     {
         return \AppKernel::class;
-    }
+    }*/
     
     public function __construct()
     {
@@ -146,7 +145,4 @@ class TaskContext extends WebTestCase implements Context
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Correct redirect to page tasks");
         $this->assertTrue($this->crawler->filter('html:contains("Liste des tâches")')->count() > 0);
     }
-
-    
-     
 }

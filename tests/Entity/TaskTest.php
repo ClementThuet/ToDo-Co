@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\AppBundle\Entity;
+namespace App\Tests\Entity;
 
-use AppBundle\Entity\Task;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Entity\Task;
+use PHPUnit\Framework\TestCase;
 
-class TaskTest extends WebTestCase{
+class TaskTest extends TestCase{
 
     public function testConstructTask()
     {

@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle\DataFixtures;
+namespace App\DataFixtures;
 
-use AppBundle\Entity\Task;
-use AppBundle\Entity\User;
+use App\Entity\Task;
+use App\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;

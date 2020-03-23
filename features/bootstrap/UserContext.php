@@ -1,8 +1,5 @@
 <?php
-
 use Behat\Behat\Context\Context;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Tester\Exception\PendingException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -16,10 +13,10 @@ class UserContext extends WebTestCase implements Context
     private static $container;
     
     //Needs to override GetKernelClass method
-    protected static function getKernelClass()
+    /*protected static function getKernelClass()
     {
         return \AppKernel::class;
-    }
+    }*/
     
     public function __construct()
     {

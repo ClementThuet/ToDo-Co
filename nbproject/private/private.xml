@@ -3,26 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/ToDo-Co/app/config/services.yml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/config/packages/dev/web_profiler.yaml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/config/packages/doctrine_cache.yml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/.env</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/config/routes.yaml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/config/packages/test/framework.yaml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/app/config/parameters.yml.dist</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/app/config/config.yml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/config/packages/doctrine.yaml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/app/config/parameters.yml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/config/packages/twig.yaml</file>
             <file>file:/C:/wamp64/www/ToDo-Co/composer.json</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/config/services.yaml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/app/config/security.yml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/bin/console</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/templates/base.html.twig</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/config/packages/framework.yaml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/config/services_dev.yml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/app/config/config_dev.yml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/app/AppKernel.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/phpunit.xml.dist</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/behat.yml.dist</file>
         </group>
     </open-files>
 </project-private>
