@@ -15,6 +15,7 @@ class TaskController extends Controller
      */
     public function listAction()
     {
+        $this->denyAccessUnlessGranted('seeTask');
         return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository('App:Task')->findAll()]);
     }
 
@@ -23,18 +24,18 @@ class TaskController extends Controller
      */
     public function createAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('createTask');
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
             $task->setUser($user);
             $em->persist($task);
             $em->flush();
-
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
             return $this->redirectToRoute('task_list');
@@ -48,11 +49,12 @@ class TaskController extends Controller
      */
     public function editAction(Task $task, Request $request)
     {
+        $this->denyAccessUnlessGranted('editTask', $task);
+       
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
@@ -84,14 +86,16 @@ class TaskController extends Controller
      */
     public function deleteTaskAction(Task $task)
     {
+        $this->denyAccessUnlessGranted('deleteTask', $task);
         $user = $this->getUser();
-        //TODO : Check if task is linked to anonymous user instead of null
-        if($user == $task->getUser() or ($task->getUser() == null && in_array("ROLE_ADMIN",$user->getRoles())) )
+        
+        if($user == $task->getUser() or ($task->getUser()->getUsername() == "ANONYMOUS" && in_array("ROLE_ADMIN",$user->getRoles())) )
         {
             $em = $this->getDoctrine()->getManager();
             $em->remove($task);
             $em->flush();
             $this->addFlash('success', 'La tâche a bien été supprimée.');
+            return $this->redirectToRoute('task_list');
         }
         $this->addFlash('error', 'Vous ne pouvez supprimer une tâche que vous n\'avez pas créee.');
         return $this->redirectToRoute('task_list');
