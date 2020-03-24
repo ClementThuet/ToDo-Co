@@ -1,19 +1,16 @@
-@user
-Feature: Create and edit user
-  In order to create or edit a user
-  As a administrator
-  I need to submit valid form
+@navigation
+Feature: Navigating on the site once logged
+  In order to access differents page
+  As a user
+  I need to navigate through various URL
 
-  Scenario: Create user
-    Given I am on users/create url logged in as an admin
-    And I fill in the form with valid informations
-    And I press ajouter
-    Then I should be redirect to users page
-    And the user must be stored in database
+  Scenario: Displaying tasks
+    Given I am logged in
+    Given I am on /tasks
+    And some tasks are already added
+    Then I should see at least one task
 
-  Scenario: Edit user
-    Given I am on users/create url logged in as an admin
-    Given I am on users/id/edit url
-    And I fill in the form with correct informations
-    And I click on modifier
-    Then I should be redirect to users list
+  Scenario: Displaying users
+    Given I am logged in as an admin
+    And I am on /users
+    Then I should find users

@@ -1,0 +1,31 @@
+security:
+    encoders:
+        App\Entity\User: bcrypt
+
+    providers:
+        doctrine:
+            entity:
+                class: App:User
+                property: username
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            pattern: ^/
+            form_login:
+                login_path: login
+                check_path: login_check
+                always_use_default_target_path:  true
+                default_target_path:  /
+            logout: ~
+            access_denied_handler: App\Security\AccessDeniedHandler
+
+    access_control:
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/users, roles: ROLE_ADMIN }
+        - { path: ^/, roles: [IS_AUTHENTICATED_ANONYMOUSLY, ROLE_ADMIN, ROLE_USER] }
+    #access_denied_url: /

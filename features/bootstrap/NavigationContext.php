@@ -1,49 +1,21 @@
 <?php
 
-use Behat\Behat\Context\Context;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
-use Behat\Behat\Tester\Exception\PendingException;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Behat\Behat\Context\BehatContext;
 
-require_once(__DIR__ . '/../../vendor/bin/.phpunit/phpunit-5.7/vendor/autoload.php');
+use Behat\Behat\Context\Context;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Defines application features from the specific context.
  */
 class NavigationContext extends WebTestCase implements Context
 {
-    private static $container;
-    
-    protected static function getKernelClass()
-    {
-        return \AppKernel::class;
-    }
-    
     /**
-     * @BeforeSuite
+     * Initializes context.
+     *
+     * Every scenario gets its own context instance.
+     * You can also pass arbitrary arguments to the
+     * context constructor through behat.yml.
      */
-    public static function bootstrapSymfony()
-    {
-        require_once __DIR__.'/../../app/autoload.php';
-        require_once __DIR__.'/../../app/AppKernel.php';
-        $kernel = new AppKernel('test', true);
-        $kernel->boot();
-        self::$container = $kernel->getContainer();
-    }
-    
-    public function loginAsAdmin()
-    {
-        $crawler = $this->client->request('GET', '/login');
-        $form = $crawler->selectButton('Se connecter')->form();
-        $form['_username'] = "Clement";
-        $form['_password'] = "test";
-        $this->form = $form;
-        $this->client->submit($this->form);
-    }
-
-    
     public function __construct()
     {
         $this->client = static::createClient();
@@ -110,5 +82,6 @@ class NavigationContext extends WebTestCase implements Context
     {
         $this->assertTrue($this->crawler->filter('html:contains("Edit")')->count() > 0);
     }
-
+    
+    
 }
