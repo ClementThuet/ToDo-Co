@@ -23,9 +23,8 @@ security:
                 default_target_path:  /
             logout: ~
             access_denied_handler: App\Security\AccessDeniedHandler
-
     access_control:
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         #- { path: ^/users, roles: ROLE_ADMIN }
-        - { path: ^/, roles: [IS_AUTHENTICATED_ANONYMOUSLY, ROLE_ADMIN, ROLE_USER] }
+        #- { path: ^/, roles: [IS_AUTHENTICATED_ANONYMOUSLY, ROLE_ADMIN, ROLE_USER] }
     #access_denied_url: /

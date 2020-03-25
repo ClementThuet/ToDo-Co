@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/ToDo-Co/src/Controller/UserController.php</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/templates/user/list.html.twig</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/templates/task/list.html.twig</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/src/Entity/Task.php</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/src/Form/TaskType2.php</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/src/Controller/TaskController.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/src/Controller/SecurityController.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/config/packages/security.yaml</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/src/Security/Voters/TaskVoter.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/src/Entity/User.php</file>
         </group>
     </open-files>
 </project-private>
