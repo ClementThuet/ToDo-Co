@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/ToDo-Co/src/Controller/SecurityController.php</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/config/packages/security.yaml</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/src/Security/Voters/TaskVoter.php</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/src/Entity/User.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/composer.lock</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/.env</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/composer.json</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/src/Kernel.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/public/index.php</file>
         </group>
     </open-files>
 </project-private>

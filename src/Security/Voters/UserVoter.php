@@ -42,9 +42,6 @@ class UserVoter extends Voter
             return false;
         }
 
-        
-        //$user = $subject;
-
         switch ($attribute) {
             case self::SEE:
                 return $this->canSeeUsers();
@@ -63,8 +60,6 @@ class UserVoter extends Voter
         }
     }
     
-    
-
     private function canEditUser()
     {
         // if they can see, they can edit
