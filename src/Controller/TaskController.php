@@ -27,7 +27,6 @@ class TaskController extends Controller
         $this->denyAccessUnlessGranted('createTask');
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -40,7 +39,6 @@ class TaskController extends Controller
 
             return $this->redirectToRoute('task_list');
         }
-
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
 
@@ -50,9 +48,7 @@ class TaskController extends Controller
     public function editAction(Task $task, Request $request)
     {
         $this->denyAccessUnlessGranted('editTask', $task);
-       
         $form = $this->createForm(TaskType::class, $task);
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -75,7 +71,6 @@ class TaskController extends Controller
     {
         $task->toggle(!$task->isDone());
         $this->getDoctrine()->getManager()->flush();
-
         $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
 
         return $this->redirectToRoute('task_list');
@@ -98,6 +93,7 @@ class TaskController extends Controller
             return $this->redirectToRoute('task_list');
         }
         $this->addFlash('error', 'Vous ne pouvez supprimer une tâche que vous n\'avez pas créee.');
+        
         return $this->redirectToRoute('task_list');
     }
 }
