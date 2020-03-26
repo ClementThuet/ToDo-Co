@@ -10,6 +10,7 @@ body {
 
 .slide-image {
     width: 100%;
+    border: 1px solid black;
 }
 
 .carousel-holder {

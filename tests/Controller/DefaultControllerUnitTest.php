@@ -18,9 +18,7 @@ class DefaultControllerTest extends TestCase
     
     public function testTest()
     {
-        $age=24;
-
-        $this->assertEquals(24, $age);
+        $this->assertTrue(true);
     }
     
 }
