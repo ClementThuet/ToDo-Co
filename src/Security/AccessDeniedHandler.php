@@ -12,7 +12,6 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
 {
     public function handle(Request $request, AccessDeniedException $accessDeniedException)
     {
-        //dd($request->getRequestUri());
         if(strpos($request->getRequestUri(),"edit") == true )
         {
             $request->getSession()->getFlashBag()->add('error', 'Vous n\'avez pas la permission de modifier cela.');
@@ -21,7 +20,7 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
         if(strpos($request->getRequestUri(),"delete") == true )
         {
             $request->getSession()->getFlashBag()->add('error', 'Vous n\'avez pas la permission de supprimer cette tâche.');
-            return new RedirectResponse('/');
+            return new RedirectResponse('/tasks');
         }
         
         if($request->getRequestUri() == "/users" )
