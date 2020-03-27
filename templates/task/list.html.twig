@@ -21,7 +21,7 @@
                     <p>{{ task.content }}</p>
                 </div>
                 <div>
-                    {%if app.user is not null%}
+                    {%if app.user%}
                         {#Show delete button if the user logged own the task or if the task have no owner and the user logged have role admin #}
                         {% if app.user == task.user or (task.user.username == "ANONYMOUS" and "ROLE_ADMIN" in app.user.roles)%}
                             <form action="{{ path('task_toggle', {'id' : task.id }) }}">
