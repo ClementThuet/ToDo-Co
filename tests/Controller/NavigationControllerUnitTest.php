@@ -4,18 +4,18 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-
 class UserControllerUnitTest extends WebTestCase
 {
     private $client = null;
   
-    function setUp()
+    /*function setUp()
     {
        $this->client = static::createClient();
-    }
+    }*/
     
     public function loginAsAdmin()
     {
+        $this->client = static::createClient();
         $crawler = $this->client->request('GET', '/login');
         $form = $crawler->selectButton('Se connecter')->form();
         $form['_username'] = 'Clement';
@@ -25,6 +25,7 @@ class UserControllerUnitTest extends WebTestCase
     
     public function testHomepageIsUp()
     {
+        $this->client = static::createClient();
       $this->client->request('GET', '/');
       static::assertEquals(
         200,
@@ -34,6 +35,7 @@ class UserControllerUnitTest extends WebTestCase
     
     public function testLoginpageIsUp()
     {
+        $this->client = static::createClient();
         $this->client->request('GET', '/login');
         static::assertEquals(
           200,
@@ -44,12 +46,14 @@ class UserControllerUnitTest extends WebTestCase
     //Test if there is a form with action = /login_check on the page at the URL "login"
     public function testLoginFormIsUp()
     {
+        $this->client = static::createClient();
         $crawler = $this->client->request('GET', '/login');
         $this->assertSame(1, $crawler->filter('form[action=\/login_check]')->count());
     }
     
     public function testLogin()
     {
+        $this->client = static::createClient();
         $crawler = $this->client->request('GET', '/login');
         $form = $crawler->selectButton('Se connecter')->form();
         $form['_username'] = 'Clement';
@@ -62,6 +66,7 @@ class UserControllerUnitTest extends WebTestCase
     
     public function testUsersPageIsUp()
     {
+        $this->client = static::createClient();
         $this->loginAsAdmin();
         $crawler = $this->client->request('GET', '/users');
         $this->assertTrue($crawler->filter('html:contains("Liste des utilisateurs")')->count() > 0);
@@ -69,6 +74,7 @@ class UserControllerUnitTest extends WebTestCase
     
     public function testCreateUserPageIsUp()
     {
+        $this->client = static::createClient();
         $this->loginAsAdmin();
         $crawler = $this->client->request('GET', '/users/create');
         $this->assertTrue($crawler->filter('html:contains("Créer un utilisateur")')->count() > 0);
@@ -76,6 +82,7 @@ class UserControllerUnitTest extends WebTestCase
     
     public function testTasksPageIsUp()
     {
+        $this->client = static::createClient();
         $this->loginAsAdmin();
         $crawler = $this->client->request('GET', '/tasks');
         $this->assertTrue($crawler->filter('html:contains("Liste des tâches")')->count() > 0);
@@ -83,6 +90,7 @@ class UserControllerUnitTest extends WebTestCase
     
     public function testCreateTaskPageIsUp()
     {
+        $this->client = static::createClient();
         $this->loginAsAdmin();
         $crawler = $this->client->request('GET', '/tasks/create');
         $this->assertTrue($crawler->filter('html:contains("Créer une tâche")')->count() > 0);

@@ -7,3 +7,8 @@ default:
                 - NavigationContext
                 - UserContext
                 - TaskContext
+    extensions:
+        Behat\Symfony2Extension:
+          kernel:
+            bootstrap: features/bootstrap/bootstrap.php
+            class: App\Kernel

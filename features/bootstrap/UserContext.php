@@ -10,32 +10,17 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class UserContext extends WebTestCase implements Context
 {
-    private static $container;
-    
-    //Needs to override GetKernelClass method
-    /*protected static function getKernelClass()
-    {
-        return \AppKernel::class;
-    }*/
     
     public function __construct()
     {
         $this->client = static::createClient();
     }
     
-    /**
-     * @BeforeSuite
-     */
-    public static function bootstrapSymfony()
-    {
-        require_once __DIR__.'/../../app/autoload.php';
-        require_once __DIR__.'/../../app/AppKernel.php';
-        $kernel = new AppKernel('test', true);
-        $kernel->boot();
-        self::$container = $kernel->getContainer();
-    }
     
-    public function loginAsAdmin()
+    /**
+     * @Given I am on users\/create url logged in as an admin
+    */
+    public function iAmOnUsersCreateUrlLoggedInAsAnAdmin()
     {
         $crawler = $this->client->request('GET', '/login');
         $form = $crawler->selectButton('Se connecter')->form();
@@ -43,15 +28,6 @@ class UserContext extends WebTestCase implements Context
         $form['_password'] = "test";
         $this->form = $form;
         $this->client->submit($this->form);
-    }
-    
-    
-     /**
-     * @Given I am on users\/create url logged in as an admin
-     */
-    public function iAmOnUsersCreateUrlLoggedInAsAnAdmin()
-    {
-        $this->loginAsAdmin();
         $this->crawler = $this->client->request('GET', '/users/create');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
@@ -95,12 +71,13 @@ class UserContext extends WebTestCase implements Context
     public function theUserMustBeStoredInDatabase()
     {
         $em = self::$container->get('doctrine')->getManager();
-        $userCreatedToTest = $em->getRepository('\AppBundle\Entity\User')->findOneBy(array('email' => 'functionaltestmailexample@test.com'));
+        $userCreatedToTest = $em->getRepository('App\Entity\User')->findOneBy(array('email' => 'functionaltestmailexample@test.com'));
         $this->assertNotNull($userCreatedToTest);
         $em->remove($userCreatedToTest);
         $em->flush();
     }
 
+    // EDOT USER
 
     /**
      * @Given I am on users\/id\/edit url
@@ -108,8 +85,13 @@ class UserContext extends WebTestCase implements Context
     public function iAmOnUsersIdEditUrl()
     {
         $em = self::$container->get('doctrine')->getManager();
-        $userToEdit = $em->getRepository('\AppBundle\Entity\User')->findOneBy(array('email' => 'anonymous@anonymous.com'));
-        $this->loginAsAdmin();
+        $userToEdit = $em->getRepository('App\Entity\User')->findOneBy(array('email' => 'anonymous@anonymous.com'));
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Se connecter')->form();
+        $form['_username'] = "Clement";
+        $form['_password'] = "test";
+        $this->form = $form;
+        $this->client->submit($this->form);
         $this->crawler = $this->client->request('GET', '/users/'.$userToEdit->getId().'/edit');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }

@@ -4,6 +4,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+
 //require_once(__DIR__ . '/../../vendor/bin/.phpunit/phpunit-5.7/vendor/autoload.php');
 
 /**
@@ -11,29 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class SecurityContext extends WebTestCase implements Context
 {
-    private static $container;
-    
-    //Needed to override GetKernelClass method
-    /* protected static function getKernelClass()
-    {
-        return \AppKernel::class;
-    }*/
-    
     public function __construct()
     {
         $this->client = static::createClient();
-    }
-    
-    /**
-     * @BeforeSuite
-     */
-    public static function bootstrapSymfony()
-    {
-        require_once __DIR__.'/../../app/autoload.php';
-        require_once __DIR__.'/../../app/AppKernel.php';
-        $kernel = new AppKernel('test', true);
-        $kernel->boot();
-        self::$container = $kernel->getContainer();
     }
     
     public function loginAsAdmin()
@@ -104,7 +85,13 @@ class SecurityContext extends WebTestCase implements Context
      */
     public function iAmOnUsersUrl()
     {
-        $this->loginAsAdmin();
+        
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Se connecter')->form();
+        $form['_username'] = "Clement";
+        $form['_password'] = "test";
+        $this->form = $form;
+        $this->client->submit($this->form);
         $this->crawler = $this->client->request('GET', '/users');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
@@ -114,11 +101,13 @@ class SecurityContext extends WebTestCase implements Context
      */
     public function iClickOnButtonSeDeconnecter()
     {
+        
         $link = $this->crawler
         ->filter('.logout') // find all links with the text "Greet"
         ->link();
+       
         $this->crawler = $this->client->click($link);
-        $this->crawler = $this->client->followRedirect();
+        $this->crawler = $this->client->followRedirect(); 
     }
 
 
@@ -127,8 +116,8 @@ class SecurityContext extends WebTestCase implements Context
      */
     public function iShouldBeRedirectToLoginPage()
     {
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode(), "Correct redirect to page login");
-        $this->assertTrue($this->crawler->filter('html:contains("Redirecting to http://localhost/login")')->count() > 0);
+        //$this->assertEquals(302, $this->client->getResponse()->getStatusCode(), "Correct redirect to page login");
+        $this->assertTrue($this->crawler->filter('html:contains("Se connecter")')->count() > 0);
     }
 
     /**
@@ -165,7 +154,7 @@ class SecurityContext extends WebTestCase implements Context
      */
     public function iShouldGetAForbidenAccess()
     {
-        $this->assertEquals(403, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }
     
     
@@ -187,7 +176,7 @@ class SecurityContext extends WebTestCase implements Context
     {
         $em = self::$container->get('doctrine')->getManager();
         //This task is created by another user than the one who is logged
-        $taskToDelete = $em->getRepository('\AppBundle\Entity\Task')->findOneBy(array('content' => 'N°418514 and n°14511'));
+        $taskToDelete = $em->getRepository('App\Entity\Task')->findOneBy(array('content' => 'N°418514 and n°14511'));
         $this->loginAsUser();
         $this->client->request('GET', '/tasks/'.$taskToDelete->getId().'/delete');
     }
@@ -197,8 +186,8 @@ class SecurityContext extends WebTestCase implements Context
      */
     public function iShouldGetAMessageSayingICantDeleteIt()
     {
-         $this->crawler = $this->client->followRedirect();
-         $this->assertTrue($this->crawler->filter('html:contains("Oops ! Vous ne pouvez supprimer une tâche que vous n\'avez pas créee.")')->count() > 0);
+        $this->crawler = $this->client->followRedirect();
+        $this->assertTrue($this->crawler->filter('html:contains("Oops ! Vous n\'avez pas la permission de supprimer cette tâche.")')->count() > 0);
     }
 
     //TRYING TO DELETE A TASK OWNED BY ANONYMOUS USER WHITHOUT GETTING ROLE ADMIN
@@ -210,7 +199,7 @@ class SecurityContext extends WebTestCase implements Context
     {
         $em = self::$container->get('doctrine')->getManager();
         //This task is created by another user than the one who is logged
-        $taskToDelete = $em->getRepository('\AppBundle\Entity\Task')->findOneBy(array('content' => 'Adress : smith2.@corpname.com'));
+        $taskToDelete = $em->getRepository('App\Entity\Task')->findOneBy(array('content' => 'Adress : smith2.@corpname.com'));
         $this->assertNotNull($taskToDelete,'This task doesn\'t exists');
         $this->loginAsUser();
         $this->client->request('GET', '/tasks/'.$taskToDelete->getId().'/delete');
