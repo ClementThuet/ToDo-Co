@@ -14,3 +14,8 @@ Feature: Navigating on the site once logged
     Given I am logged in as an admin
     And I am on /users
     Then I should find users
+
+  Scenario: Accessing undefined URL
+    Given Y try to access a non existent route
+    Then I should see a not found error
+

@@ -98,5 +98,25 @@ class NavigationContext extends WebTestCase implements Context
         $this->assertTrue($this->crawler->filter('html:contains("Edit")')->count() > 0);
     }
     
+    // ACCESSING UNDEFINED URL
     
+    /**
+     * @Given Y try to access a non existent route
+     */
+    public function yTryToAccessANonExistentRoute()
+    {
+        $this->crawler = $this->client->request('GET', '/ARandomAndUndefinedRoute');
+    }
+
+    /**
+     * @Then I should see a not found error
+     */
+    public function iShouldSeeANotFoundError()
+    {
+        $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
+    }
+
+
+       
+
 }
