@@ -26,7 +26,8 @@ class UserController extends AbstractController
     public function createAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $loggedUserRoles = $this->getUser()->getRoles();
+        $form = $this->createForm(UserType::class, $user, ['isAdmin'=>in_array('ROLE_ADMIN',$loggedUserRoles)]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,7 +49,8 @@ class UserController extends AbstractController
     public function editAction(User $user, Request $request, UserPasswordEncoderInterface $encoder)
     {
         $this->denyAccessUnlessGranted('editUser');
-        $form = $this->createForm(UserType::class, $user);
+        $loggedUserRoles = $this->getUser()->getRoles();
+        $form = $this->createForm(UserType::class, $user, ['isAdmin'=>in_array('ROLE_ADMIN',$loggedUserRoles)]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
