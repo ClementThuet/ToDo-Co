@@ -30,3 +30,11 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 nbproject/private/private.xml
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> behat/symfony2-extension ###
+behat.yml
+###< behat/symfony2-extension ###

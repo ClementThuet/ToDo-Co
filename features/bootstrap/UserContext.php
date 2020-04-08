@@ -10,32 +10,17 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class UserContext extends WebTestCase implements Context
 {
-    private static $container;
-    
-    //Needs to override GetKernelClass method
-    /*protected static function getKernelClass()
-    {
-        return \AppKernel::class;
-    }*/
     
     public function __construct()
     {
         $this->client = static::createClient();
     }
     
-    /**
-     * @BeforeSuite
-     */
-    public static function bootstrapSymfony()
-    {
-        require_once __DIR__.'/../../app/autoload.php';
-        require_once __DIR__.'/../../app/AppKernel.php';
-        $kernel = new AppKernel('test', true);
-        $kernel->boot();
-        self::$container = $kernel->getContainer();
-    }
     
-    public function loginAsAdmin()
+      /**
+     * @Given I am on users\/create url logged in as an admin
+     */
+    public function iAmOnUsersCreateUrlLoggedInAsAnAdmin()
     {
         $crawler = $this->client->request('GET', '/login');
         $form = $crawler->selectButton('Se connecter')->form();
@@ -43,15 +28,6 @@ class UserContext extends WebTestCase implements Context
         $form['_password'] = "test";
         $this->form = $form;
         $this->client->submit($this->form);
-    }
-    
-    
-     /**
-     * @Given I am on users\/create url logged in as an admin
-     */
-    public function iAmOnUsersCreateUrlLoggedInAsAnAdmin()
-    {
-        $this->loginAsAdmin();
         $this->crawler = $this->client->request('GET', '/users/create');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
@@ -69,38 +45,66 @@ class UserContext extends WebTestCase implements Context
         $form['user[roles][0]'] = true;
         $this->form = $form;
     }
-
-    /**
-     * @Given I press ajouter
+    
+     /**
+     * @Then I select ajouter and should be redirect to users page
      */
-    public function iPressAjouter()
+    public function iSelectAjouterAndShouldBeRedirectToUsersPage()
     {
         $this->client->submit($this->form);
-        $this->assertTrue($this->client->getResponse()->isRedirect(),'Submit ok');
         $this->crawler = $this->client->followRedirect();
-    }
-
-    /**
-     * @Then I should be redirect to users page
-     */
-    public function iShouldBeRedirectToUsersPage()
-    {
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Correct redirect to page users");
         $this->assertTrue($this->crawler->filter('html:contains("Liste des utilisateurs")')->count() > 0);
     }
-    
+
     /**
      * @Then the user must be stored in database
      */
     public function theUserMustBeStoredInDatabase()
     {
         $em = self::$container->get('doctrine')->getManager();
-        $userCreatedToTest = $em->getRepository('\AppBundle\Entity\User')->findOneBy(array('email' => 'functionaltestmailexample@test.com'));
+        $userCreatedToTest = $em->getRepository('App\Entity\User')->findOneBy(array('email' => 'functionaltestmailexample@test.com'));
         $this->assertNotNull($userCreatedToTest);
         $em->remove($userCreatedToTest);
         $em->flush();
     }
+    
+    //ADD USER WITH UNVALID INFO
+    /**
+     * @Given I fill in the user form with unvalid informations
+     */
+    public function iFillInTheUserFormWithUnvalidInformations()
+    {
+        $form = $this->crawler->selectButton('Ajouter')->form();
+        $form['user[username]'] = "";
+        $form['user[password][first]'] = "password";
+        $form['user[password][second]'] = "notTheSamePassword";
+        $form['user[email]'] = "emailButWithoutArobase";
+        $form['user[roles][0]'] = true;
+        $this->form = $form;
+    }
+    
+    /**
+     * @Then I select ajouter and should not be redirect
+     */
+    public function iSelectAjouterAndShouldNotBeRedirect()
+    {
+        $this->client->submit($this->form);
+        $this->assertTrue($this->crawler->filter('html:contains("Créer un utilisateur")')->count() > 0);
+    }
 
+    
+    /**
+     * @Then the user must not be stored in database
+     */
+    public function theUserMustNotBeStoredInDatabase()
+    {
+        $em = self::$container->get('doctrine')->getManager();
+        $userCreatedToTest = $em->getRepository('App\Entity\User')->findOneBy(array('email' => 'emailButWithoutArobase.com'));
+        $this->assertNull($userCreatedToTest);
+    }
+
+    // EDIT USER
 
     /**
      * @Given I am on users\/id\/edit url
@@ -108,8 +112,13 @@ class UserContext extends WebTestCase implements Context
     public function iAmOnUsersIdEditUrl()
     {
         $em = self::$container->get('doctrine')->getManager();
-        $userToEdit = $em->getRepository('\AppBundle\Entity\User')->findOneBy(array('email' => 'anonymous@anonymous.com'));
-        $this->loginAsAdmin();
+        $userToEdit = $em->getRepository('App\Entity\User')->findOneBy(array('email' => 'anonymous@anonymous.com'));
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Se connecter')->form();
+        $form['_username'] = "Clement";
+        $form['_password'] = "test";
+        $this->form = $form;
+        $this->client->submit($this->form);
         $this->crawler = $this->client->request('GET', '/users/'.$userToEdit->getId().'/edit');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
@@ -119,7 +128,7 @@ class UserContext extends WebTestCase implements Context
      */
     public function iFillInTheFormWithCorrectInformations()
     {
-        $form =  $this->crawler->selectButton('Modifier')->form();
+        $form = $this->crawler->selectButton('Modifier')->form();
         $form['user[username]'] = "ANONYMOUS";
         $form['user[password][first]'] = "test";
         $form['user[password][second]'] = "test";
@@ -127,23 +136,40 @@ class UserContext extends WebTestCase implements Context
         $form['user[roles][0]'] = true;
         $this->form = $form;
     }
-
-    /**
-     * @Given I click on modifier
+    
+     /**
+     * @Then I click on modifier and should be redirect to users list
      */
-    public function iClickOnModifier()
+    public function iClickOnModifierAndShouldBeRedirectToUsersList()
     {
         $this->client->submit($this->form);
-        $this->assertTrue($this->client->getResponse()->isRedirect(),'Submit ok');
         $this->crawler = $this->client->followRedirect();
-    }
-
-    /**
-     * @Then I should be redirect to users list
-     */
-    public function iShouldBeRedirectToUsersList()
-    {
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Correct redirect to page users");
         $this->assertTrue($this->crawler->filter('html:contains("Liste des utilisateurs")')->count() > 0);
     }
+
+     /**
+     * @Given I fill in the form with empty informations
+     */
+    public function iFillInTheFormWithEmptyInformations()
+    {
+        $form = $this->crawler->selectButton('Modifier')->form();
+        $form['user[username]'] = "";
+        $form['user[password][first]'] = "test";
+        $form['user[password][second]'] = "test";
+        $form['user[email]'] = "";
+        $this->form = $form;
+    }
+
+    /**
+     * @Then I click on modifier and should not be redirect to users list
+     */
+    public function iClickOnModifierAndShouldNotBeRedirectToUsersList()
+    {
+        $this->client->submit($this->form);
+        $this->assertTrue($this->crawler->filter('html:contains("Modifier")')->count() > 0);
+    }
+
+
+    
 }

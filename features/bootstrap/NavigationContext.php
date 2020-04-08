@@ -1,6 +1,7 @@
 <?php
 
 
+
 use Behat\Behat\Context\Context;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -9,24 +10,33 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class NavigationContext extends WebTestCase implements Context
 {
-    /**
-     * Initializes context.
-     *
-     * Every scenario gets its own context instance.
-     * You can also pass arbitrary arguments to the
-     * context constructor through behat.yml.
-     */
+    
     public function __construct()
     {
         $this->client = static::createClient();
     }
+    
+    /*public static function loginAsAdmin()
+    {
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Se connecter')->form();
+        $form['_username'] = "Clement";
+        $form['_password'] = "test";
+        $this->form = $form;
+        $this->client->submit($this->form);
+    }*/
     
     /**
      * @Given I am logged in
      */
     public function iAmLoggedIn()
     {
-        $this->loginAsAdmin();
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Se connecter')->form();
+        $form['_username'] = "Clement";
+        $form['_password'] = "test";
+        $this->form = $form;
+        $this->client->submit($this->form);
     }
     
     /**
@@ -45,7 +55,7 @@ class NavigationContext extends WebTestCase implements Context
     {
         $em = self::$container->get('doctrine')->getManager();
         $this->assertNotNull(
-            $em->getRepository('\AppBundle\Entity\Task')->findAll()
+            $em->getRepository('App\Entity\Task')->findAll()
         );
     }
 
@@ -63,7 +73,12 @@ class NavigationContext extends WebTestCase implements Context
      */
     public function iAmLoggedInAsAnAdmin()
     {
-        $this->loginAsAdmin();
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Se connecter')->form();
+        $form['_username'] = "Clement";
+        $form['_password'] = "test";
+        $this->form = $form;
+        $this->client->submit($this->form);
     }
 
     /**
@@ -83,5 +98,25 @@ class NavigationContext extends WebTestCase implements Context
         $this->assertTrue($this->crawler->filter('html:contains("Edit")')->count() > 0);
     }
     
+    // ACCESSING UNDEFINED URL
     
+    /**
+     * @Given Y try to access a non existent route
+     */
+    public function yTryToAccessANonExistentRoute()
+    {
+        $this->crawler = $this->client->request('GET', '/ARandomAndUndefinedRoute');
+    }
+
+    /**
+     * @Then I should see a not found error
+     */
+    public function iShouldSeeANotFoundError()
+    {
+        $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
+    }
+
+
+       
+
 }

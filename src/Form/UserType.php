@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
@@ -23,14 +24,34 @@ class UserType extends AbstractType
                 'first_options'  => ['label' => 'Mot de passe','attr' => ['class' => 'form-control']],
                 'second_options' => ['label' => 'Tapez le mot de passe à nouveau','attr' => ['class' => 'form-control']],
             ])
-            ->add('email', EmailType::class, ['label' => 'Adresse email'])
-            ->add('roles', ChoiceType::class, ['choices'  => [
+            ->add('email', EmailType::class, ['label' => 'Adresse email']);
+        if($options['isAdmin']){
+            $builder->add('roles', ChoiceType::class, ['choices'  => [
                 'Utilisateur' => "ROLE_USER",
                 'Administrateur' => "ROLE_ADMIN",
             ],
             'label' => "Rôle",
             'expanded'=>true,
             'multiple'=>true
+            ]);
+        }    
+            
+    }
+    /*$builder
+                ->add('roles', ChoiceType::class, ['choices'  => [
+                'Utilisateur' => "ROLE_USER",
+                'Administrateur' => "ROLE_ADMIN",
+            ],
+            'label' => "Rôle",
+            'expanded'=>true,
+            'multiple'=>true
+            ]);*/
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'isAdmin' => false,
         ]);
     }
+    
+    
 }
