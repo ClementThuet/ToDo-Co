@@ -18,6 +18,16 @@ class TaskController extends AbstractController
         $this->denyAccessUnlessGranted('seeTask');
         return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository('App:Task')->findAll()]);
     }
+    
+    /**
+     * @Route("/tasks/done", name="task_list_done")
+     */
+    public function listDoneAction()
+    {
+        $this->denyAccessUnlessGranted('seeTask');
+        $tasksDone = $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone'=>true]);
+        return $this->render('task/list.html.twig', ['tasks' => $tasksDone]);
+    }
 
     /**
      * @Route("/tasks/create", name="task_create")
