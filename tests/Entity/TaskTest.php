@@ -10,6 +10,7 @@ class TaskTest extends TestCase{
     public function testConstructTask()
     {
         $task = new Task();
+        $task->setCreatedAt(new \DateTime('now'));
         $this->assertEquals(true, is_a($task->getCreatedAt(),'DateTime'));
         $this->assertEquals(false, $task->isDone());
     }

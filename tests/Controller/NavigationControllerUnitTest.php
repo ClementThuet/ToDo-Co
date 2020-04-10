@@ -4,7 +4,7 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class UserControllerUnitTest extends WebTestCase
+class NavigationControllerUnitTest extends WebTestCase
 {
     private $client = null;
   
@@ -88,6 +88,14 @@ class UserControllerUnitTest extends WebTestCase
         $this->assertTrue($crawler->filter('html:contains("Liste des tâches")')->count() > 0);
     }
     
+    public function testTasksDonePageIsUp()
+    {
+        $this->client = static::createClient();
+        $this->loginAsAdmin();
+        $crawler = $this->client->request('GET', '/tasks/done');
+        $this->assertTrue($crawler->filter('html:contains("Liste des tâches")')->count() > 0);
+    }
+    
     public function testCreateTaskPageIsUp()
     {
         $this->client = static::createClient();
@@ -96,7 +104,25 @@ class UserControllerUnitTest extends WebTestCase
         $this->assertTrue($crawler->filter('html:contains("Créer une tâche")')->count() > 0);
     }
     
+    public function testEditTaskPageIsUp()
+    {
+        $this->client = static::createClient();
+        $this->loginAsAdmin();
+        $em = self::$container->get('doctrine')->getManager();
+        $taskToEdit = $em->getRepository('App\Entity\Task')->findOneBy(array('title' => 'Send the bill to mr Smith.'));
+        $this->crawler = $this->client->request('GET', '/tasks/'.$taskToEdit->getId().'/edit');
+        $this->assertTrue($this->crawler->filter('html:contains("Modifier une tâche")')->count() > 0);
+    }
     
-    
+     public function testEditWithoutPermission()
+    {
+        $this->client = static::createClient();
+       // $this->loginAsAdmin();
+        $em = self::$container->get('doctrine')->getManager();
+        $taskToEdit = $em->getRepository('App\Entity\Task')->findOneBy(array('title' => 'Send the bill to mr Smith.'));
+        $this->crawler = $this->client->request('GET', '/tasks/'.$taskToEdit->getId().'/edit');
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($crawler->filter('html:contains("Connexion")')->count() > 0);
+    }
     
 }
