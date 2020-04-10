@@ -81,7 +81,7 @@ class TaskContext extends WebTestCase implements Context
         $em->flush();
     }
 
-    // ADD TASK WITH UNVALDI INFORMATION
+    // ADD TASK WITH UNVALID INFORMATION
     
      /**
      * @Given I fill in the task form with unvalid informations
@@ -129,8 +129,6 @@ class TaskContext extends WebTestCase implements Context
     public function iFillInTheFormWithCorrectInformation()
     {
         $form =  $this->crawler->selectButton('Modifier')->form();
-        $this->title = rand();
-        $this->content = rand();
         $form['task[title]'] = "Send the bill to mr Smith.";
         $form['task[content]'] = "Adress : smith2.@corpname.com";
         $this->form = $form;

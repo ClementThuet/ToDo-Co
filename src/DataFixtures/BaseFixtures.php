@@ -6,50 +6,33 @@ use App\Entity\Task;
 use App\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-
-class BaseFixtures implements FixtureInterface, ContainerAwareInterface
+class BaseFixtures extends Fixture
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null)
+    private $encoder;
+    
+    public function __construct(UserPasswordEncoderInterface $encoder)
     {
-        $this->container = $container;
+        $this->encoder = $encoder;
     }
-
-   /* private $passwordEncoder;
-     
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
-    {
-        $this->passwordEncoder = $passwordEncoder;
-    }*/
     
     public function load(ObjectManager $manager)
     {
-         
         $userAnonymous = new User();
-        $encoder = $this->container->get('security.encoder_factory')->getEncoder($userAnonymous);
         $userAnonymous->setUsername('ANONYMOUS');
-       
-        $userAnonymous->setPassword($encoder->encodePassword('test',$userAnonymous));
-        //$userAnonymous->setPassword($this->passwordEncoder->encodePassword($userAnonymous,'test'));
-        $userAnonymous->setEmail("");
+        $userAnonymous->setPassword($this->encoder->encodePassword($userAnonymous, 'test'));
+        $userAnonymous->setEmail("anonymous@anonymous.com");
         $userAnonymous->setRoles(["ROLE_USER"]);
         
         $user = new User();
         $user->setUsername('Clément');
-        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
-        $user->setPassword($encoder->encodePassword('test',$user));
+        $user->setPassword($this->encoder->encodePassword($user, 'test'));
         $user->setEmail("clementthuet7@gmail.com");
         $user->setRoles(["ROLE_ADMIN", "ROLE_USER"]);
         
         $user2 = new User();
         $user2->setUsername('Alexis');
-        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user2);
-        $user2->setPassword($encoder->encodePassword('test',$user2));
+        $user2->setPassword($this->encoder->encodePassword($user2, 'test'));
         $user2->setEmail("alexismourouc@gmail.com");
         $user2->setRoles(["ROLE_USER"]);
         
@@ -70,6 +53,13 @@ class BaseFixtures implements FixtureInterface, ContainerAwareInterface
         $task2->setTitle('Clean the car.');
         $task2->setContent('Remember to close the windows');
         $task2->setUser($user2);
+        
+        $taskDone=new Task();
+        $taskDone->setCreatedAt(new \DateTime('now'));
+        $taskDone->setTitle('Call Mrs Puggind.');
+        $taskDone->setContent('Ask for accounting report');
+        $taskDone->isDone(true);
+        $taskDone->setUser($user2);
         
         $manager->persist($userAnonymous);
         $manager->persist($user);

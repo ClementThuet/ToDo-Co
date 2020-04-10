@@ -92,18 +92,11 @@ class TaskController extends AbstractController
     public function deleteTaskAction(Task $task)
     {
         $this->denyAccessUnlessGranted('deleteTask', $task);
-        $user = $this->getUser();
-        
-        if($user == $task->getUser() or ($task->getUser()->getUsername() == "ANONYMOUS" && in_array("ROLE_ADMIN",$user->getRoles())) )
-        {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($task);
-            $em->flush();
-            $this->addFlash('success', 'La tâche a bien été supprimée.');
-            return $this->redirectToRoute('task_list');
-        }
-        $this->addFlash('error', 'Vous ne pouvez supprimer une tâche que vous n\'avez pas créee.');
-        
+       
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($task);
+        $em->flush();
+        $this->addFlash('success', 'La tâche a bien été supprimée.');
         return $this->redirectToRoute('task_list');
     }
 }

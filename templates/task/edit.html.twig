@@ -2,6 +2,7 @@
 
 {% block body %}
     <div class="row">
+        <h1>Modifier une tâche</h1><br>
         {{ form_start(form, {'action' : path('task_edit', { 'id' : task.id })}) }}
             <div class="form-group">
                 {{ form_label(form.title, 'Titre') }}
