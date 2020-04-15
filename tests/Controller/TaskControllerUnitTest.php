@@ -38,8 +38,8 @@ class TaskControllerUnitTest extends WebTestCase
         $this->crawler = $this->client->followRedirect();
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Correct redirect to page tasks");
         $this->assertTrue($this->crawler->filter('html:contains("Liste des tâches")')->count() > 0);
-        
     }
+    
     public function testDeleteTask()
     {
         $this->client = static::createClient();

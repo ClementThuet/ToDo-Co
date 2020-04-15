@@ -3,17 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/ToDo-Co/tests/Controller/TaskControllerUnitTest.php</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/tests/Controller/UserControllerUnitTest.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/src/Controller/UserController.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/templates/user/create.html.twig</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/features/user.feature</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/templates/user/list.html.twig</file>
             <file>file:/C:/wamp64/www/ToDo-Co/templates/task/list.html.twig</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/public/css/shop-homepage.css</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/tests/Controller/NavigationControllerUnitTest.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/templates/task/edit.html.twig</file>
             <file>file:/C:/wamp64/www/ToDo-Co/features/bootstrap/UserContext.php</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/src/DataFixtures/BaseFixtures.php</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/phpunit.xml.dist</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/tests/Entity/TaskTest.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/src/Form/UserType.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/templates/default/index.html.twig</file>
             <file>file:/C:/wamp64/www/ToDo-Co/templates/base.html.twig</file>
-            <file>file:/C:/wamp64/www/ToDo-Co/src/Controller/TaskController.php</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/templates/task/create.html.twig</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/templates/user/edit.html.twig</file>
+            <file>file:/C:/wamp64/www/ToDo-Co/src/Entity/User.php</file>
         </group>
     </open-files>
 </project-private>

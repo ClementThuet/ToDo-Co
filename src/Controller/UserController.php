@@ -26,14 +26,21 @@ class UserController extends AbstractController
     public function createAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
-        $loggedUserRoles = $this->getUser()->getRoles();
+        $loggedUserRoles = [];
+        if ($this->getUser())
+        {
+            $loggedUserRoles = $this->getUser()->getRoles();
+        }
         $form = $this->createForm(UserType::class, $user, ['isAdmin'=>in_array('ROLE_ADMIN',$loggedUserRoles)]);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $password = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
+            if ($user->getRoles() == null)
+            {
+                $user->setRoles(['ROLE_USER']);
+            }
             $em->persist($user);
             $em->flush();
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
