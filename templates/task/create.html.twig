@@ -6,10 +6,12 @@
         {{ form_start(form, {'action' : path('task_create')}) }}
             <div class="form-group">
                 {{ form_label(form.title, 'Titre') }}
+                {{ form_errors(form.title) }}
                 {{ form_widget(form.title,{'attr':{'class':'form-control','placeholder':'Saisissez le titre'}}) }}
             </div>
             <div class="form-group">
-                {{ form_label(form.title, 'Contenu') }}
+                {{ form_label(form.content, 'Contenu') }}
+                {{ form_errors(form.content) }}
                 {{ form_widget(form.content,{'attr':{'class':'form-control','placeholder':'Saisissez le contenu'}}) }}
             </div>
             <button type="submit" class="btn btn-success pull-right">Ajouter</button>

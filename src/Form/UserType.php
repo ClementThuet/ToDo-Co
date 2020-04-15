@@ -37,15 +37,6 @@ class UserType extends AbstractType
         }    
             
     }
-    /*$builder
-                ->add('roles', ChoiceType::class, ['choices'  => [
-                'Utilisateur' => "ROLE_USER",
-                'Administrateur' => "ROLE_ADMIN",
-            ],
-            'label' => "Rôle",
-            'expanded'=>true,
-            'multiple'=>true
-            ]);*/
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
